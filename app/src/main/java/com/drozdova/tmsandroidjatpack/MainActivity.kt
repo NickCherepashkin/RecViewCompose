@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -54,10 +56,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun setRecyclerView() {
-    val list = DataProvider.dancesList
+    val list = remember{DataProvider.dancesList}
     Column (horizontalAlignment = CenterHorizontally) {
         Text(
-            text = "Dance Styles",
+            text = stringResource(R.string.style_dance_text),
             fontSize = 26.sp,
             fontStyle = FontStyle.Italic,
             modifier = Modifier.padding(all = 5.dp)
@@ -95,10 +97,10 @@ fun DanceListItem(danceItem: DanceModel) {
         Row (
             modifier = Modifier.clickable {
                 val intent = Intent(context, DetailsActivity::class.java)
-                intent.putExtra("image", danceItem.image)
-                intent.putExtra("title", danceItem.title)
-                intent.putExtra("description", danceItem.description)
-                intent.putExtra("time", time)
+                intent.putExtra(KEY_IMAGE, danceItem.image)
+                intent.putExtra(KEY_TITLE, danceItem.title)
+                intent.putExtra(KEY_DESCRIPTION, danceItem.description)
+                intent.putExtra(KEY_TIME, time)
                 context.startActivity(intent)
             }
         )  {
@@ -120,7 +122,7 @@ fun DanceListItem(danceItem: DanceModel) {
                 Column(
                     modifier = Modifier.weight(3F)
                 ) {
-                    time = SimpleDateFormat("hh:mm:ss a").format(Date())
+                    time = SimpleDateFormat(stringResource(R.string.date_format)).format(Date())
                     Text(
                         text = danceItem.title,
                         fontSize = 26.sp,
@@ -147,6 +149,7 @@ fun DanceListItem(danceItem: DanceModel) {
                                 img.value = R.drawable.yellow_star
                                 isChecked = true
                             }
+                            danceItem.stateImg = img.value
                         }
                 )
             }

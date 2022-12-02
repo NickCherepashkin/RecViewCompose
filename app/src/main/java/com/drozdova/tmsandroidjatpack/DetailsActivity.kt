@@ -35,12 +35,12 @@ class DetailsActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val intent  = getIntent()
-                    val image = intent.getIntExtra("image", R.drawable.break_dance)
-                    val title = intent.getStringExtra("title") ?: ""
-                    val description = intent.getStringExtra("description") ?: ""
-                    val time = intent.getStringExtra("time") ?: ""
+                    val image = intent.getIntExtra(KEY_IMAGE, R.drawable.break_dance)
+                    val title = intent.getStringExtra(KEY_TITLE) ?: KEY_EMPTY
+                    val description = intent.getStringExtra(KEY_DESCRIPTION) ?: KEY_EMPTY
+                    val time = intent.getStringExtra(KEY_TIME) ?: KEY_EMPTY
 
-                    showDetails(image = image, title = title, time = time, description = description)
+                    ShowDetails(image = image, title = title, time = time, description = description)
                 }
             }
         }
@@ -48,7 +48,7 @@ class DetailsActivity : ComponentActivity() {
 }
 
 @Composable
-fun showDetails(image: Int, title: String, description: String, time: String) {
+fun ShowDetails(image: Int, title: String, description: String, time: String) {
     Column (
         modifier = Modifier.fillMaxSize()
             .background(Color.LightGray),
@@ -67,7 +67,8 @@ fun showDetails(image: Int, title: String, description: String, time: String) {
         Text(
             text = title,
             fontSize = 26.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.weight(1F)
         )
         Text(
             text = description,
@@ -88,6 +89,6 @@ fun showDetails(image: Int, title: String, description: String, time: String) {
 @Composable
 fun DefaultPreview2() {
     TMSAndroidJatPackTheme {
-        showDetails(R.drawable.break_dance, "", "", "")
+        ShowDetails(R.drawable.break_dance, KEY_EMPTY, KEY_EMPTY, KEY_EMPTY)
     }
 }
